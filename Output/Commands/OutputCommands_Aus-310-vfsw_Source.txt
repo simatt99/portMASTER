@@ -1,0 +1,48 @@
+int gi 1/0/25
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.31
+int gi 1/0/26
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.27
+int gi 1/0/27
+port trunk permit vlan 1
+port trunk pvid vlan 1
+desc D.77
+int gi 1/0/28
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.297
+int gi 1/0/29
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.289
+int gi 1/0/30
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.295
+int gi 1/0/31
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.187
+int gi 1/0/32
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.193
+int gi 1/0/33
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.287
+int gi 1/0/34
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.195
+int gi 1/0/35
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.227
+int gi 1/0/36
+port trunk permit vlan 503
+port trunk pvid vlan 503
+desc D.223

@@ -17,7 +17,11 @@ want to process into the Input Folder, and run `python loop.py` from the main
 directory, and within minutes will be presented with Not only a terminal output
 of the updated ports and Vlans, but also get a text file with the table for each switch,
 and also a separate text file in the commands folder of output that contains the
-commands that you can cut and paste onto a HPE switch during configuration.
+commands that you can cut and paste onto a HPE switch during configuration. The
+inspiration for this design was the fact that the previous excel tool that was
+used for this process didn't have a simple way to be modified to allow for ports
+to be kept on the proper side of the device, as cable management started to be an
+issue. 
 
 
 ### Usage:
@@ -32,7 +36,7 @@ Once this file has been downloaded I recommend renaming it as the device name
 4. ** Running the Program** - to run the program it is very straight forward,
 all it takes is running `python loop.py` and it will find all of the files and
 process them into the reports
-5.** Understanding output** - Understanding the output of the program can be a
+5. ** Understanding output** - Understanding the output of the program can be a
 bit much, it was designed to be as simple as possible, but still can be alot
 The termal and main ouput file will display a table that looks like this:
 
@@ -65,3 +69,6 @@ and also the new information after processing. This will mostly be used when pat
 and only shows the ports that need to be patched over. The commands folder
 Contains the HPE commands, which can be just copied and pasted, no need for Explanation
 as HPE is another section of hardware.
+
+### Examples:
+There are example files that are loaded into the input folder, and its respective outputs are in the output folder, although when the program runs your cutsheets once processed will be moved into the Completed folder.
