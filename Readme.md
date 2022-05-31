@@ -2,7 +2,7 @@
 
 
 ### Introduction
-**What is cut Sheet Creator?**
+**What is cut Sheet Creator?** - 
 Cut Sheet Creator is a powerful script that is designed to take AKIPS reports
 from existing network infrastructure hardware (Network Switches),and output the
 commands that would be required to configure new switches based off the HPE
@@ -10,7 +10,7 @@ platform. In this process there is also an integrated system that removes all
 unused ports and converts the Text Based Vlans from the AKIPS report into
 numerical code based off a master Vlan List.
 
-**How it works**
+**How it works** -
 Cut Sheet Creator is designed to be efficient and deployable as a cron job.
 With that in mind all the user is required to do is drop the AKIPS report(s) they
 want to process into the Input Folder, and run `python loop.py` from the main
@@ -21,7 +21,7 @@ commands that you can cut and paste onto a HPE switch during configuration. The
 inspiration for this design was the fact that the previous excel tool that was
 used for this process didn't have a simple way to be modified to allow for ports
 to be kept on the proper side of the device, as cable management started to be an
-issue. 
+issue.
 
 
 ### Usage:
@@ -33,10 +33,10 @@ the report that we are going to use is going to to be gotten from using the
 unused interfaces menu and selecting a device, then selecting download as a csv.
 Once this file has been downloaded I recommend renaming it as the device name
  just to keep track of it. Then move the file into the Input folder of the Program
-4. ** Running the Program** - to run the program it is very straight forward,
+4. **Running the Program** - to run the program it is very straight forward,
 all it takes is running `python loop.py` and it will find all of the files and
 process them into the reports
-5. ** Understanding output** - Understanding the output of the program can be a
+5. **Understanding output** - Understanding the output of the program can be a
 bit much, it was designed to be as simple as possible, but still can be alot
 The termal and main ouput file will display a table that looks like this:
 
