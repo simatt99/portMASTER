@@ -10,7 +10,12 @@ f = open('VlansOut.csv', 'w')
 writer = csv.writer(f)
 # If you want to open Chrome
 driver = webdriver.Chrome()
-Name = "als-1011a-vfsw"
+
+
+
+User_cred = "username"
+Pass_cred = "password"
+
 # If you want to open Firefox
 #driver = webdriver.Firefox()
 switchUrl = "https://switches.net.oregonstate.edu/switches/27/391/"
@@ -19,8 +24,8 @@ def login():
     print("Got Login Page")
     username = driver.find_element(By.NAME,'username')
     password = driver.find_element(By.NAME,'password')
-    username.send_keys("username")
-    password.send_keys("password")
+    username.send_keys(User_cred)
+    password.send_keys(Pass_cred)
     driver.find_element(By.CSS_SELECTOR, ".btn-primary").click()
     print("Logged In")
 
@@ -28,16 +33,21 @@ def getVlan(switchUrl): #Get the vlans and write them to a file
     driver.get(switchUrl)
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
+    VlanList = []
     for input in soup.find_all('option', selected=True):
     #    print(input)
         Words = input.getText() # Get the text, its very long
         List = Words.split("\n") # split the new line values into list
-        List[1] = List[1].strip() # Remove whitespace from second item in list
+        try:
+            List[1] = List[1].strip() # Remove whitespace from second item in list
+            row = [input.get('value'), List[1][2:]]
+            VlanList.append(row)
+            print(row)
+            writer.writerow(row)
+        except IndexError:
+            f.close()
 
-        row = [input.get('value'), List[1][2:]]
-        print(row)
-        writer.writerow(row)
-    f.close()
+    return VlanList
 
 
 def GetSwitchURLFromName(Name):
@@ -53,17 +63,16 @@ def GetSwitchURLFromName(Name):
 
     return 0
 
-login()
-switchUrl = GetSwitchURLFromName(Name)
 
-getVlan(switchUrl)
 
 
 #Todo
-#  Rebuild the Search feature based off names
-#Export Vlans as List of Name and Number
-# in main check if vlans exist from report
+#  Rebuild the Search feature based off names - Completed
+#Export Vlans as List of Name and Number - Completed
+# in main check if vlans exist from report - Scrapped, getting vlans from open l2m from all of them
 # if not get from the Scraper
-# Start by matching ports with the Gi ports
-# Download AKIPS reports
-#
+# Start by matching ports with the Gi ports # Completed, code is in main
+# Re-write whole program - need to do
+# Download AKIPS reports from List of Names, Csv
+# Rename Akips File to Name
+# Run Cutsheet System based off the files

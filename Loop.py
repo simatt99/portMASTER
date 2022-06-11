@@ -2,10 +2,11 @@ from os import listdir
 from os import walk
 from Main import BigFunc
 import shutil
-mypath = "C:/Users/hopki/Documents/ENGR 103/FinalProject/FinalApp/Input"
-output = "C:/Users/hopki/Documents/ENGR 103/FinalProject/FinalApp/Output"
-Completed =  "C:/Users/hopki/Documents/ENGR 103/FinalProject/FinalApp/Completed"
-Local = "C:/Users/hopki/Documents/ENGR 103/FinalProject/FinalApp"
+from OpenL2MScrape import login
+mypath = "C:/Users/ripte/Documents/CutSheetCreator/Input"
+output = "C:/Users/ripte/Documents/CutSheetCreator/Output"
+Completed =  "C:/Users/ripte/Documents/CutSheetCreator/Completed"
+Local = "C:/Users/ripte/Documents/CutSheetCreator"
 def GetInputFiles():
 
     filenames = next(walk(mypath), (None, None, []))[2]  # [] if no file
@@ -15,6 +16,8 @@ def GetInputFiles():
 
 
 Files = GetInputFiles()
+print("Logging Into OpenL2MScrape")
+login()
 for File in Files:
     Filepath =  mypath + "/" + File
     shutil.move(Filepath,Local +"/" + File )#Move file from input folder to main dir for processing
@@ -23,7 +26,7 @@ for File in Files:
     BigFunc(File)
     BigFuncCommandOut = Local + "/" + "OutputCommands_" + Filename + ".txt"
     CommandsOUtput = output + "/Commands/" + "OutputCommands_" + Filename + ".txt"
-    OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".csv"
+    OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".txt"
     OutputActiveOut = output + "/" + "OutputActive_" + Filename + ".csv"
     print(Completed)
     shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed

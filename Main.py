@@ -2,6 +2,7 @@ import csv
 from tabulate import tabulate
 from datetime import datetime
 import sys
+from OpenL2MScrape import *
 
 # Define the cutoff time
 CutoffDate = datetime.strptime("2019-06-17", "%Y-%m-%d")
@@ -151,6 +152,30 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
         return d
     return devices
 
+def QueryVlans(Name):
+
+    print("Logged In")
+    switchUrl = GetSwitchURLFromName(Name)
+    print("Got Switch URL ")
+    VlanList = getVlan(switchUrl)
+    return VlanList
+
+def GetActiveVlans(ActiveInts,Vlans): #query OpenL2MScrape to get the Vlans for the Device
+
+    VlansList = QueryVlans(ActiveInts[1][0]) #Use Device Name
+    i =0
+    print("Updating List")
+    for Interfaces in ActiveInts:
+        print(Interfaces[1])
+        print(Interfaces[1][0])
+        if Interfaces[1][0] == 'G':
+            Interfaces[7] = VlansList[i][1] # Updated Vlan value in list to be the text vlan name
+            print(VlansList[i])
+            Interfaces.append(VlansList[i][0])
+            i += 1
+    return ActiveInts
+
+
 # Main Section Here
 def BigFunc(File):
 
@@ -167,8 +192,9 @@ def BigFunc(File):
     #Return a list of ports that are deemed active based off cut off date, and current status
     #This is from the list of ports on the sheet
     ActiveInts = GetActiveInterfaces(ImportSheet)
+    #Check if Sheet Has Vlans
 
-    Interfaces = UpdateVlans(ActiveInts,Vlans)
+    Interfaces =GetActiveVlans(ActiveInts,Vlans)
     #print(tabulate(Interfaces, headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID" ], tablefmt="pretty"))
 
     Sides = Organize(Interfaces)
