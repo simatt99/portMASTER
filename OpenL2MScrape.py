@@ -6,10 +6,18 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import csv
 
-f = open('VlansOut.csv', 'w')
-writer = csv.writer(f)
+# Run Headlessly
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.headless = True
+
+#f = open('VlansOut.csv', 'w')
+#writer = csv.writer(f)
 # If you want to open Chrome
 driver = webdriver.Chrome()
+#options = webdriver.ChromeOptions();
+#options.add_argument('headless');
 
 
 
@@ -42,10 +50,10 @@ def getVlan(switchUrl): #Get the vlans and write them to a file
             List[1] = List[1].strip() # Remove whitespace from second item in list
             row = [input.get('value'), List[1][2:]]
             VlanList.append(row)
-            print(row)
-            writer.writerow(row)
+        #    print(row)
+        #    writer.writerow(row)
         except IndexError:
-            f.close()
+            print("Error")
 
     return VlanList
 
@@ -59,9 +67,16 @@ def GetSwitchURLFromName(Name):
     soup = BeautifulSoup(html, 'html.parser')
     for link in soup.find_all('a'):
         if link.getText() == Name.lower():
-            return "https://switches.net.oregonstate.edu" + link.get('href')
+            link = str("https://switches.net.oregonstate.edu" + link.get('href'))
+            print(link)
+            return link
 
     return 0
+
+def Quit():
+    #f.close()
+    driver.close()
+    return driver.quit
 
 
 

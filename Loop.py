@@ -27,7 +27,7 @@ for File in Files:
     BigFuncCommandOut = Local + "/" + "OutputCommands_" + Filename + ".txt"
     CommandsOUtput = output + "/Commands/" + "OutputCommands_" + Filename + ".txt"
     OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".txt"
-    OutputActiveOut = output + "/" + "OutputActive_" + Filename + ".csv"
+    OutputActiveOut = output + "/" + "OutputActive_" + Filename + ".txt"
     print(Completed)
     shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
     shutil.move(BigFuncCommandOut,CommandsOUtput) # move output cmmands to output

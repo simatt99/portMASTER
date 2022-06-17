@@ -10,7 +10,9 @@ CutoffDate = datetime.strptime("2019-06-17", "%Y-%m-%d")
 def ReadSheet(File):
     with open(File, newline='') as f:
         reader = csv.reader(f)
-        return list(reader)
+        Sheet = list(reader)
+        f.close()
+        return Sheet
         #open up the file and read it as a giant list
 
 def GetActiveInterfaces(ImportSheet):
@@ -66,6 +68,8 @@ def ExportFile(Sides,Filename): #Write both left and right tables to a text file
     with open(name,'w') as f:
         f.write(tabulate(Sides[0], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
         f.write(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
+    f.close()
+
 
 def Organize(Interfaces):
     RightInterfaces = []# Create empty list
@@ -146,7 +150,7 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
         if i == 24:
             i = 0
             d += 1
-
+    out.close()
     if d > devices: # Return which ever device count is greater so we know how many
     #switches to use
         return d
@@ -157,6 +161,7 @@ def QueryVlans(Name):
     print("Logged In")
     switchUrl = GetSwitchURLFromName(Name)
     print("Got Switch URL ")
+    print(switchUrl)
     VlanList = getVlan(switchUrl)
     return VlanList
 
@@ -164,10 +169,10 @@ def GetActiveVlans(ActiveInts,Vlans): #query OpenL2MScrape to get the Vlans for 
 
     VlansList = QueryVlans(ActiveInts[1][0]) #Use Device Name
     i =0
-    print("Updating List")
+#    print("Updating List")
     for Interfaces in ActiveInts:
-        print(Interfaces[1])
-        print(Interfaces[1][0])
+    #    print(Interfaces[1])
+    #    print(Interfaces[1][0])
         if Interfaces[1][0] == 'G':
             Interfaces[7] = VlansList[i][1] # Updated Vlan value in list to be the text vlan name
             print(VlansList[i])
@@ -199,7 +204,7 @@ def BigFunc(File):
 
     Sides = Organize(Interfaces)
     Sides = GetNewPort(Sides)
-
+    Quit() #Quit OpenL2MScrape
     print("Right Side Interfaces")
     print(tabulate(Sides[0], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
     print("Left Side Interfaces")
