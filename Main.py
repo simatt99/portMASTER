@@ -4,6 +4,22 @@ from datetime import datetime
 import sys
 from OpenL2MScrape import *
 
+
+#Todo
+#  Rebuild the Search feature based off names - Completed
+#Export Vlans as List of Name and Number - Completed
+# in main check if vlans exist from report - Scrapped, getting vlans from open l2m from all of them
+# if not get from the Scraper
+# Start by matching ports with the Gi ports # Completed, code is in main
+# Have Table be written as a csv and text file
+# Have Program output the ports that need to be removed as a CutFile, Also as a text and Csv file
+# Re-write whole program - need to do
+# Download AKIPS reports from List of Names, Csv
+# Rename Akips File to Name
+# Run Cutsheet System based off the files
+
+
+
 # Define the cutoff time
 CutoffDate = datetime.strptime("2019-06-17", "%Y-%m-%d")
 
@@ -17,6 +33,7 @@ def ReadSheet(File):
 
 def GetActiveInterfaces(ImportSheet):
     ActiveInts = []
+    DeactivatedInts = []
     for Interface in ImportSheet:
         if Interface[5] == "":
             Interface[5] = "2019-06-16 12:00" #if there is no time, assume it is older than Cutoff
@@ -33,7 +50,10 @@ def GetActiveInterfaces(ImportSheet):
             # if down but was active before cutoff date, add to active list
             elif Interface[4] == 'down' and TimeValue >= CutoffDate:
                 ActiveInts.append(Interface)
-    return ActiveInts
+
+            else:
+                DeactivatedInts.append(Interface)
+    return [ActiveInts,DeactivatedInts]
 
 
 def UpdateVlans(Interfaces,Vlans): # Add in each vlan number to the end of each list
@@ -63,12 +83,39 @@ def ImportVlans(): # Read the vlans file as a Csv, and then return the list
     print(tabulate(Vlans, headers=["Vlan Name","Vlan Number" ], tablefmt="pretty"))
     return Vlans
 
-def ExportFile(Sides,Filename): #Write both left and right tables to a text file, Side 0 is Right, Side 1 is left
-    name = "OutputActive_" + Filename + ".txt"
-    with open(name,'w') as f:
-        f.write(tabulate(Sides[0], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
-        f.write(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
+def ExportFile(Sides,name,Interfaces): #Write both left and right tables to a text file, Side 0 is Right, Side 1 is left
+
+    #For Each Active Int
+    # For Each for Right side Cycle through until Interface ID is the same
+    # Then Append the Interface Value
+    # Repeat Above steps for left side
+    for Port in Interfaces:
+        for Device in Sides[0]:
+            if Device[1] == Port[1]:
+                Port.append(Device[9])
+                #print(Port)
+        for Device in Sides[0]:
+            if Device[1] == Port[1]:
+                Port.append(Device[9])
+                #print(Port)
+    header = ["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ]
+    #Write as a Pretty Table Txt File
+    with open(name + ".txt",'w') as f:
+        f.write(tabulate(Interfaces, headers=header, tablefmt="pretty"))
+    #    f.write(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
     f.close()
+    # Write as a csv file
+    with open(name + ".csv", 'w') as csvfile:
+    # creating a csv writer object
+        csvwriter = csv.writer(csvfile)
+
+    # writing the Header
+        csvwriter.writerow(header)
+
+    # writing the data rows
+        csvwriter.writerows(Interfaces)
+    csvfile.close()
+
 
 
 def Organize(Interfaces):
@@ -79,7 +126,12 @@ def Organize(Interfaces):
 
         if Interface[1][0:2] == "Gi": # make sure that its an ethernet port, not fiber based
         #    print(int(Interface[1][4:]))
-            if int(Interface[1][4:]) > 24: # if the port is on higher than port 24
+            # Get the last Number on the end of the Port Number, no matter how many slashes there are
+            PortNum = Interface[1].split("/")[-1]
+            #
+            #
+            #print(PortNum)
+            if int(PortNum) > 24: # if the port is on higher than port 24
             #Add it to the right list, others (If lower than 24, add to left)
                 RightInterfaces.append(Interface)
             else:
@@ -175,7 +227,7 @@ def GetActiveVlans(ActiveInts,Vlans): #query OpenL2MScrape to get the Vlans for 
     #    print(Interfaces[1][0])
         if Interfaces[1][0] == 'G':
             Interfaces[7] = VlansList[i][1] # Updated Vlan value in list to be the text vlan name
-            print(VlansList[i])
+            #print(VlansList[i])
             Interfaces.append(VlansList[i][0])
             i += 1
     return ActiveInts
@@ -196,7 +248,9 @@ def BigFunc(File):
 
     #Return a list of ports that are deemed active based off cut off date, and current status
     #This is from the list of ports on the sheet
-    ActiveInts = GetActiveInterfaces(ImportSheet)
+    ProcessedInterfaces = GetActiveInterfaces(ImportSheet)
+    ActiveInts = ProcessedInterfaces[0]
+    DeactivatedInts = ProcessedInterfaces[1]
     #Check if Sheet Has Vlans
 
     Interfaces =GetActiveVlans(ActiveInts,Vlans)
@@ -204,12 +258,16 @@ def BigFunc(File):
 
     Sides = Organize(Interfaces)
     Sides = GetNewPort(Sides)
-    Quit() #Quit OpenL2MScrape
+
     print("Right Side Interfaces")
     print(tabulate(Sides[0], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
     print("Left Side Interfaces")
     print(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID", "New Port" ], tablefmt="pretty"))
     Devices = OutputCommands(Sides,Filename)
-    ExportFile(Sides,Filename)
-
+    # Print out all of the Activated Ports
+    name = "OutputActive_" + Filename
+    ExportFile(Sides,name,ActiveInts)
+    # Print out all of the Deactivated Ports
+    name = "Deactivated_" + Filename
+    ExportFile(Sides,name,DeactivatedInts)
     print("Num of HPE Switches Needed: " + str(Devices))

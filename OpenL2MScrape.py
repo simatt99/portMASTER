@@ -5,6 +5,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import csv
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 # Run Headlessly
 from selenium.webdriver.chrome.options import Options
@@ -19,10 +22,10 @@ driver = webdriver.Chrome()
 #options = webdriver.ChromeOptions();
 #options.add_argument('headless');
 
+User_cred = os.environ.get('USERNAME')
+Pass_cred = os.environ.get('PASSWORD')
 
 
-User_cred = "username"
-Pass_cred = "password"
 
 # If you want to open Firefox
 #driver = webdriver.Firefox()
@@ -75,19 +78,5 @@ def GetSwitchURLFromName(Name):
 
 def Quit():
     #f.close()
-    driver.close()
+    #driver.close()
     return driver.quit
-
-
-
-
-#Todo
-#  Rebuild the Search feature based off names - Completed
-#Export Vlans as List of Name and Number - Completed
-# in main check if vlans exist from report - Scrapped, getting vlans from open l2m from all of them
-# if not get from the Scraper
-# Start by matching ports with the Gi ports # Completed, code is in main
-# Re-write whole program - need to do
-# Download AKIPS reports from List of Names, Csv
-# Rename Akips File to Name
-# Run Cutsheet System based off the files

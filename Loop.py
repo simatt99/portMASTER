@@ -2,7 +2,7 @@ from os import listdir
 from os import walk
 from Main import BigFunc
 import shutil
-from OpenL2MScrape import login
+from OpenL2MScrape import login, Quit
 mypath = "C:/Users/ripte/Documents/CutSheetCreator/Input"
 output = "C:/Users/ripte/Documents/CutSheetCreator/Output"
 Completed =  "C:/Users/ripte/Documents/CutSheetCreator/Completed"
@@ -24,11 +24,28 @@ for File in Files:
     #Completed = Completed + "/" + File
     Filename = File[0:-4]
     BigFunc(File)
+    shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
+
     BigFuncCommandOut = Local + "/" + "OutputCommands_" + Filename + ".txt"
     CommandsOUtput = output + "/Commands/" + "OutputCommands_" + Filename + ".txt"
-    OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".txt"
-    OutputActiveOut = output + "/" + "OutputActive_" + Filename + ".txt"
-    print(Completed)
-    shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
     shutil.move(BigFuncCommandOut,CommandsOUtput) # move output cmmands to output
-    shutil.move(OutPutActive,OutputActiveOut)# Move outpupt Table to Output
+
+
+    OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".txt"
+    OutPutActivecsv = Local  + "/" + "OutputActive_" + Filename + ".csv"
+    OutputActiveOut = output + "/" + "OutputActive_" + Filename + ".txt"
+    OutputActiveOutcsv = output + "/" + "OutputActive_" + Filename + ".csv"
+    shutil.move(OutPutActive,OutputActiveOut)# Move output Table to Output
+    shutil.move(OutPutActivecsv,OutputActiveOutcsv)# Move output csv to Output
+
+    OutputInactive = Local  + "/" + "OutputActive_" + Filename + ".txt"
+    OutputInactivecsv = Local  + "/" + "OutputActive_" + Filename + ".csv"
+    OutputInactiveOut = output + "/" + "OutputActive_" + Filename + ".txt"
+    OutputInactiveOutcsv = output + "/" + "OutputActive_" + Filename + ".csv"
+    shutil.move(OutputInactive,OutputInactiveOut)# Move output Table to Output for the inactive Sheets
+    shutil.move(OutputInactivecsv,OutputInactiveOutcsv)# Move output csv to Output for the inactive sheets 
+    print(Completed)
+
+
+
+Quit()

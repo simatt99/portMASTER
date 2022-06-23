@@ -2,7 +2,7 @@
 
 
 ### Introduction
-**What is cut Sheet Creator?** - 
+**What is cut Sheet Creator?** -
 Cut Sheet Creator is a powerful script that is designed to take AKIPS reports
 from existing network infrastructure hardware (Network Switches),and output the
 commands that would be required to configure new switches based off the HPE
