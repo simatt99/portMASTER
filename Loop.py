@@ -1,7 +1,9 @@
 from os import listdir
 from os import walk
+from os import mkdir
 from Main import BigFunc
 import shutil
+import os
 from OpenL2MScrape import login, Quit
 mypath = "C:/Users/ripte/Documents/CutSheetCreator/Input"
 output = "C:/Users/ripte/Documents/CutSheetCreator/Output"
@@ -25,9 +27,15 @@ for File in Files:
     Filename = File[0:-4]
     BigFunc(File)
     shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
+    # Create a folder for each device
+    path = os.path.join(output + "/", Filename)
+    os.mkdir(path)
+
+
+    output = output + "/" + Filename
 
     BigFuncCommandOut = Local + "/" + "OutputCommands_" + Filename + ".txt"
-    CommandsOUtput = output + "/Commands/" + "OutputCommands_" + Filename + ".txt"
+    CommandsOUtput = output + "/" + "OutputCommands_" + Filename + ".txt"
     shutil.move(BigFuncCommandOut,CommandsOUtput) # move output cmmands to output
 
 
@@ -38,12 +46,12 @@ for File in Files:
     shutil.move(OutPutActive,OutputActiveOut)# Move output Table to Output
     shutil.move(OutPutActivecsv,OutputActiveOutcsv)# Move output csv to Output
 
-    OutputInactive = Local  + "/" + "OutputActive_" + Filename + ".txt"
-    OutputInactivecsv = Local  + "/" + "OutputActive_" + Filename + ".csv"
-    OutputInactiveOut = output + "/" + "OutputActive_" + Filename + ".txt"
-    OutputInactiveOutcsv = output + "/" + "OutputActive_" + Filename + ".csv"
+    OutputInactive = Local  + "/" + "Deactivated_" + Filename + ".txt"
+    OutputInactivecsv = Local  + "/" + "Deactivated_" + Filename + ".csv"
+    OutputInactiveOut = output + "/" + "Deactivated_" + Filename + ".txt"
+    OutputInactiveOutcsv = output + "/" + "Deactivated_" + Filename + ".csv"
     shutil.move(OutputInactive,OutputInactiveOut)# Move output Table to Output for the inactive Sheets
-    shutil.move(OutputInactivecsv,OutputInactiveOutcsv)# Move output csv to Output for the inactive sheets 
+    shutil.move(OutputInactivecsv,OutputInactiveOutcsv)# Move output csv to Output for the inactive sheets
     print(Completed)
 
 

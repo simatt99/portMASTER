@@ -25,6 +25,8 @@ driver = webdriver.Chrome()
 User_cred = os.environ.get('USERNAME')
 Pass_cred = os.environ.get('PASSWORD')
 
+print(User_cred)
+
 
 
 # If you want to open Firefox
@@ -79,4 +81,4 @@ def GetSwitchURLFromName(Name):
 def Quit():
     #f.close()
     #driver.close()
-    return driver.quit
+    return driver.quit()

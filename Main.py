@@ -11,8 +11,10 @@ from OpenL2MScrape import *
 # in main check if vlans exist from report - Scrapped, getting vlans from open l2m from all of them
 # if not get from the Scraper
 # Start by matching ports with the Gi ports # Completed, code is in main
-# Have Table be written as a csv and text file
-# Have Program output the ports that need to be removed as a CutFile, Also as a text and Csv file
+# Have Table be written as a csv and text file - Completed
+# Have Program output the ports that need to be removed as a CutFile, Also as a text and Csv file - Completed
+# Fix the Dot Env Password system
+# Update the Readme
 # Re-write whole program - need to do
 # Download AKIPS reports from List of Names, Csv
 # Rename Akips File to Name
@@ -76,12 +78,7 @@ def GetVlan(Text,Vlans):
 
 
 
-def ImportVlans(): # Read the vlans file as a Csv, and then return the list
 
-    Vlans = ReadSheet("Vlans.csv")
-    #print a nice looking table of vlans
-    print(tabulate(Vlans, headers=["Vlan Name","Vlan Number" ], tablefmt="pretty"))
-    return Vlans
 
 def ExportFile(Sides,name,Interfaces): #Write both left and right tables to a text file, Side 0 is Right, Side 1 is left
 
@@ -244,7 +241,7 @@ def BigFunc(File):
     #print(ImportSheet)
     header =  ImportSheet[0]
     del ImportSheet[0] # Remove the header of the sheet
-    Vlans = ImportVlans() # Read the vlans
+    Vlans = []
 
     #Return a list of ports that are deemed active based off cut off date, and current status
     #This is from the list of ports on the sheet
