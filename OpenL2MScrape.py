@@ -26,7 +26,8 @@ User_cred = os.environ.get('USERNAME')
 Pass_cred = os.environ.get('PASSWORD')
 
 print(User_cred)
-
+User_cred = 'hopkinsr'
+Pass_cred = 'Thisismyuniversitypassword'
 
 
 # If you want to open Firefox

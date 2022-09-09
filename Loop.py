@@ -6,7 +6,7 @@ import shutil
 import os
 from OpenL2MScrape import login, Quit
 mypath = "C:/Users/ripte/Documents/CutSheetCreator/Input"
-output = "C:/Users/ripte/Documents/CutSheetCreator/Output"
+outputpath = "C:/Users/ripte/Documents/CutSheetCreator/Output"
 Completed =  "C:/Users/ripte/Documents/CutSheetCreator/Completed"
 Local = "C:/Users/ripte/Documents/CutSheetCreator"
 def GetInputFiles():
@@ -28,11 +28,11 @@ for File in Files:
     BigFunc(File)
     shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
     # Create a folder for each device
-    path = os.path.join(output + "/", Filename)
+    path = os.path.join(outputpath + "/", Filename)
     os.mkdir(path)
 
 
-    output = output + "/" + Filename
+    output = outputpath + "/" + Filename
 
     BigFuncCommandOut = Local + "/" + "OutputCommands_" + Filename + ".txt"
     CommandsOUtput = output + "/" + "OutputCommands_" + Filename + ".txt"

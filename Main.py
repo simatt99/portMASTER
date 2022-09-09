@@ -13,7 +13,11 @@ from OpenL2MScrape import *
 # Start by matching ports with the Gi ports # Completed, code is in main
 # Have Table be written as a csv and text file - Completed
 # Have Program output the ports that need to be removed as a CutFile, Also as a text and Csv file - Completed
+# Add In Vlan Name and input
+# Set Default Vlan for all ports based off most common one
 # Fix the Dot Env Password system
+# Remove disabeld Vlans and set as Default Vlan
+# have Output Commands be In Numeric Order
 # Update the Readme
 # Re-write whole program - need to do
 # Download AKIPS reports from List of Names, Csv
@@ -58,24 +62,6 @@ def GetActiveInterfaces(ImportSheet):
     return [ActiveInts,DeactivatedInts]
 
 
-def UpdateVlans(Interfaces,Vlans): # Add in each vlan number to the end of each list
-    for Interface in Interfaces:
-        VlanNum = GetVlan(Interface[7],Vlans)
-    #    print(VlanNum)
-        Interface.append(VlanNum)
-
-    return Interfaces
-
-def GetVlan(Text,Vlans):
-    for Vlan in Vlans: # go throgh the vlan file list
-        #print(Text)
-        #print(Vlan[0])
-        # Set dashes to equal underscores for ease of processing, then if vlan name equal
-        # Return the vlan number
-        if Text.replace("-","_") == Vlan[0].replace("-","_"):
-            #print("Vlans are Equal")
-            return Vlan[1]
-
 
 
 
@@ -89,10 +75,20 @@ def ExportFile(Sides,name,Interfaces): #Write both left and right tables to a te
     for Port in Interfaces:
         for Device in Sides[0]:
             if Device[1] == Port[1]:
+            #    print(Device) if the port doesnt have a vlan but is active give them vlan 500
+                if Device[7] == "":
+                    Device.append(Device[8])
+                    Device[8] == "500"
+                    Device[7] == "MNGT:500"
                 Port.append(Device[9])
                 #print(Port)
-        for Device in Sides[0]:
+        for Device in Sides[1]:
             if Device[1] == Port[1]:
+            #    print(Device) If for some reason that the port doenst have a vlan, give them 500
+                if Device[7] == "":
+                    Device.append(Device[8])
+                    Device[8] == "500"
+                    Device[7] == "MNGT:500"
                 Port.append(Device[9])
                 #print(Port)
     header = ["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ]
@@ -167,15 +163,29 @@ def GetNewPort(Sides): # New active devies
 def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
     RightInterfaces = Sides[0] # Get right side
     LeftInterfaces = Sides[1] # get left side
+
+    #Vlans On the Device
+    OnSwitchVlanNum = []
+    OnSwitchVlanName =[]
     name = "OutputCommands_" + Filename + ".txt" # create the name of the output file
     out = open(name,'w') # open the file
+
     i = 24 # Start out at interface 24, or the right side
     d = 1 # start on the first device
     for Interface in RightInterfaces:
         i += 1 # iterate the list
         if Interface[8] == None: # if no vlan defined set it equal to one
             Interface[8] = "1"
+
+        # Vlan Check Goes Here
+        # If the Vlan number is not in the list of vlans that will be added to switch
+        # Then Add it to the list, along with the Vlan Name
+        if Interface[8] not in OnSwitchVlanNum:
+            OnSwitchVlanNum.append(Interface[8])
+            OnSwitchVlanName.append(Interface[7])
+
         out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
+        out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan
         out.write( "port trunk permit vlan " + Interface[8]+ "\n") # command to change the vlan
         out.write( "port trunk pvid vlan " + Interface[8]+ "\n")# second command for the vlan
         out.write( "desc " + Interface[6]+ "\n") # update the discription
@@ -192,13 +202,30 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
         i += 1
         if Interface[8] == None:
             Interface[8] = "1"
+
+        # Vlan Check Goes Here
+        # If the Vlan number is not in the list of vlans that will be added to switch
+        # Then Add it to the list, along with the Vlan Name
+        if Interface[8] not in OnSwitchVlanNum:
+            OnSwitchVlanNum.append(Interface[8])
+            OnSwitchVlanName.append(Interface[7])
+
+        # Write out The commands
         out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n")
+        out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan
         out.write( "port trunk permit vlan " + Interface[8]+ "\n")
         out.write( "port trunk pvid vlan " + Interface[8]+ "\n")
         out.write( "desc " + Interface[6]+ "\n")
         if i == 24:
             i = 0
             d += 1
+
+    # Write out the Vlan configuration
+    i = 0
+    for VlanNum in OnSwitchVlanNum:
+        out.write("Vlan " + VlanNum + " \n")
+        out.write("name " + OnSwitchVlanName[i] + " \n")
+        i += 1
     out.close()
     if d > devices: # Return which ever device count is greater so we know how many
     #switches to use
@@ -214,20 +241,38 @@ def QueryVlans(Name):
     VlanList = getVlan(switchUrl)
     return VlanList
 
-def GetActiveVlans(ActiveInts,Vlans): #query OpenL2MScrape to get the Vlans for the Device
-
-    VlansList = QueryVlans(ActiveInts[1][0]) #Use Device Name
-    i =0
+def GetVlans(Interfaces,Vlans): #query OpenL2MScrape to get the Vlans for the Device
+    # Get a list of vlans for each port from OpenL2M
+    VlansList = QueryVlans(Interfaces[1][0]) #Use Device Name
+    i = 0
 #    print("Updating List")
-    for Interfaces in ActiveInts:
+    for Interface in Interfaces:
     #    print(Interfaces[1])
     #    print(Interfaces[1][0])
-        if Interfaces[1][0] == 'G':
-            Interfaces[7] = VlansList[i][1] # Updated Vlan value in list to be the text vlan name
-            #print(VlansList[i])
-            Interfaces.append(VlansList[i][0])
-            i += 1
-    return ActiveInts
+    # Check if the Port is an standard Edge Port
+        try:
+            if Interface[1][0] == 'G':
+            #    print(VlansList)
+            #    print(i)
+                #print(Interfaces)
+                # if the Vlan for the interface is Disabled or not set, set it to vlan 1270
+                if VlansList[i][0] == 999 or VlansList[i][0] == 1:
+                    PortVlan = 1270
+                else:
+                    #If not a disabled vlan set portVLan to be
+                    PortVlan = VlansList[i][0]
+
+
+                Interface[7] = VlansList[i][1] # Updated Vlan value in list to be the text vlan name
+                #Append The Vlan Number to the Specific Interface List
+                Interface.append(PortVlan)
+
+                i += 1
+        except IndexError:
+            return Interfaces
+    return Interfaces
+
+
 
 
 # Main Section Here
@@ -242,18 +287,24 @@ def BigFunc(File):
     header =  ImportSheet[0]
     del ImportSheet[0] # Remove the header of the sheet
     Vlans = []
+    Interfaces = ImportSheet
+
 
     #Return a list of ports that are deemed active based off cut off date, and current status
     #This is from the list of ports on the sheet
-    ProcessedInterfaces = GetActiveInterfaces(ImportSheet)
+
+    Interfaces = GetVlans(Interfaces,Vlans) ## Append Vlans from OpenL2M onto the ports
+    ProcessedInterfaces = GetActiveInterfaces(Interfaces)
     ActiveInts = ProcessedInterfaces[0]
     DeactivatedInts = ProcessedInterfaces[1]
     #Check if Sheet Has Vlans
 
-    Interfaces =GetActiveVlans(ActiveInts,Vlans)
+#    Interfaces =GetActiveVlans(ActiveInts,Vlans)
+
+
     #print(tabulate(Interfaces, headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID" ], tablefmt="pretty"))
 
-    Sides = Organize(Interfaces)
+    Sides = Organize(ActiveInts)
     Sides = GetNewPort(Sides)
 
     print("Right Side Interfaces")
