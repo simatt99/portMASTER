@@ -19,6 +19,10 @@ from OpenL2MScrape import *
 # Remove disabeld Vlans and set as Default Vlan
 # have Output Commands be In Numeric Order
 # Update the Readme
+# Check if all of the ports is greater than 48
+# Allow command line arguments
+# Upload to box
+# Create Trunk Commands List
 # Re-write whole program - need to do
 # Download AKIPS reports from List of Names, Csv
 # Rename Akips File to Name

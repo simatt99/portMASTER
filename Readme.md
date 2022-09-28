@@ -78,3 +78,13 @@ as HPE is another section of hardware.
 
 ### Examples:
 There are example files that are loaded into the input folder, and its respective outputs are in the output folder, although when the program runs your cutsheets once processed will be moved into the Completed folder.
+
+
+### Features:
+- Custom Cutoff Date Selection
+- OPENL2M Vlan Query
+- Automatic Port Configuration Command Generation
+- Automatic Vlan Initilzation Command Generation
+- Specify Port Types Based off Vlan
+- Automatic File management
+- Automatic Cable Management
