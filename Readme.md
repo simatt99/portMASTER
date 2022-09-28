@@ -26,13 +26,19 @@ issue.
 
 ### Usage:
 1. **Download From GitHub** - Using `git Clone https://github.com/Hopalonger/CutSheetCreator.git`
-2. **Install Dependencies** - This tool requires a few Dependencies to operate
-these can be installed by running these commands `pip install tabulate`
+2. **Installation** - This tool requires a few Dependencies to operate
+these can be installed by running these commands `pip install tabulate`,
+`pip install selenium`. Once these Dependencies have been intalled, open
+`OpenL2MScrape.py` in a text editor and set `User_cred` to be your OpenL2M Login username,
+and set `Pass_cred` to be your OpenL2M Login Password. These will be stored here locally
+
 3. **Importing Reports** - This system is designed to Use specific AKIPS reports,
 the report that we are going to use is going to to be gotten from using the
-unused interfaces menu and selecting a device, then selecting download as a csv.
+unused interfaces menu and selecting a device. Once the device has been selceted
+click the csv button on the top to download it as a csv file.
 Once this file has been downloaded I recommend renaming it as the device name
- just to keep track of it. Then move the file into the Input folder of the Program
+just to keep track of it. Then move the file into the Input folder of the Program
+
 4. **Running the Program** - to run the program it is very straight forward,
 all it takes is running `python loop.py` and it will find all of the files and
 process them into the reports

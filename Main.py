@@ -13,7 +13,7 @@ from OpenL2MScrape import *
 # Start by matching ports with the Gi ports # Completed, code is in main
 # Have Table be written as a csv and text file - Completed
 # Have Program output the ports that need to be removed as a CutFile, Also as a text and Csv file - Completed
-# Add In Vlan Name and input
+# Add In Vlan Name and input - Completed
 # Set Default Vlan for all ports based off most common one
 # Fix the Dot Env Password system
 # Remove disabeld Vlans and set as Default Vlan
@@ -24,7 +24,9 @@ from OpenL2MScrape import *
 # Rename Akips File to Name
 # Run Cutsheet System based off the files
 
-
+# Access Port Vlans - List of vlans that should by default be acess ports instead
+# of trunk ports
+AccessVlans = [1134]
 
 # Define the cutoff time
 CutoffDate = datetime.strptime("2019-06-17", "%Y-%m-%d")
@@ -184,10 +186,17 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
             OnSwitchVlanNum.append(Interface[8])
             OnSwitchVlanName.append(Interface[7])
 
-        out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
-        out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan
-        out.write( "port trunk permit vlan " + Interface[8]+ "\n") # command to change the vlan
-        out.write( "port trunk pvid vlan " + Interface[8]+ "\n")# second command for the vlan
+
+        if Interface[8] in AccessVlans: # if The port is in a list of acess ports
+            out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
+            out.write("port link-type acesss \n") # Set the port to be an acess port
+            out.write("port acess vlan "+ Interface[8]+ "\n") # Set the acess port vlan
+        else:
+            out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
+            out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan
+            out.write( "port trunk permit vlan " + Interface[8]+ "\n") # command to change the vlan
+            out.write( "port trunk pvid vlan " + Interface[8]+ "\n")# second command for the vlan
+
         out.write( "desc " + Interface[6]+ "\n") # update the discription
 
         if i == 48: # if port 48 is reached, iterate to the next device
@@ -210,12 +219,20 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
             OnSwitchVlanNum.append(Interface[8])
             OnSwitchVlanName.append(Interface[7])
 
-        # Write out The commands
-        out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n")
-        out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan
-        out.write( "port trunk permit vlan " + Interface[8]+ "\n")
-        out.write( "port trunk pvid vlan " + Interface[8]+ "\n")
-        out.write( "desc " + Interface[6]+ "\n")
+        # Write out the commands
+        if Interface[8] in AccessVlans: # if The port is in a list of acess ports
+            out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
+            out.write("port link-type acesss \n") # Set the port to be an acess port
+            out.write("port acess vlan "+ Interface[8]+ "\n") # Set the acess port vlan
+        else:
+            out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
+            out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan
+            out.write( "port trunk permit vlan " + Interface[8]+ "\n") # command to change the vlan
+            out.write( "port trunk pvid vlan " + Interface[8]+ "\n")# second command for the vlan
+
+        out.write( "desc " + Interface[6]+ "\n") # update the discription
+
+
         if i == 24:
             i = 0
             d += 1

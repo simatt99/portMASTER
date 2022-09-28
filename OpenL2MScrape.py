@@ -22,12 +22,9 @@ driver = webdriver.Chrome()
 #options = webdriver.ChromeOptions();
 #options.add_argument('headless');
 
-User_cred = os.environ.get('USERNAME')
-Pass_cred = os.environ.get('PASSWORD')
+User_cred = 'USERNAME'
+Pass_cred = 'PASSWORD'
 
-print(User_cred)
-User_cred = 'hopkinsr'
-Pass_cred = 'Thisismyuniversitypassword'
 
 
 # If you want to open Firefox
@@ -44,6 +41,7 @@ def login():
     print("Logged In")
 
 def getVlan(switchUrl): #Get the vlans and write them to a file
+    print(switchUrl)
     driver.get(switchUrl)
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
