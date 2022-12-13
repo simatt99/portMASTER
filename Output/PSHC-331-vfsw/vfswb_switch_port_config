@@ -1,0 +1,476 @@
+int gi 4/0/25
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.336
+int gi 4/0/26
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.106
+int gi 4/0/27
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 200F/D.232
+int gi 4/0/28
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.337
+int gi 4/0/29
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D340.324
+int gi 4/0/30
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 206A/D.235
+int gi 4/0/31
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.300
+int gi 4/0/32
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D340.325
+int gi 4/0/33
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.312
+int gi 4/0/34
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D340.326
+int gi 4/0/35
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.054
+int gi 4/0/36
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 201/D.254
+int gi 4/0/37
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.299
+int gi 4/0/38
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201/D.256
+int gi 4/0/39
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201/D.257
+int gi 4/0/40
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201/D.259
+int gi 4/0/41
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201/D.260
+int gi 4/0/42
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201C/D.262
+int gi 4/0/43
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 334/D.383
+int gi 4/0/44
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 334/D.384
+int gi 4/0/45
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 333/D.354
+int gi 4/0/46
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 208A/D.278
+int gi 4/0/47
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc DO NOT TOUCH - SHS FIREWALL Rm335.182
+int gi 4/0/48
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 228/D.280
+int gi 5/0/25
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc OPEN
+int gi 5/0/26
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 331.D353
+int gi 5/0/27
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 210/D.283
+int gi 5/0/28
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 210/D.284
+int gi 5/0/29
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.376
+int gi 5/0/30
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 224C/D.286
+int gi 5/0/31
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D340.355
+int gi 5/0/32
+undo port trunk permit vlan 999
+port trunk permit vlan 4007
+port trunk pvid vlan 4007
+desc D.288
+int gi 5/0/33
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 215/D.209
+int gi 5/0/34
+undo port trunk permit vlan 999
+port trunk permit vlan 504
+port trunk pvid vlan 504
+desc 203/D.143
+int gi 5/0/35
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D340.356
+int gi 5/0/36
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D340.357
+int gi 5/0/37
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D340.358
+int gi 5/0/38
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D340.359
+int gi 5/0/39
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 224C/D.287
+int gi 5/0/40
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.306
+int gi 5/0/41
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.307
+int gi 5/0/42
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc Rm305.D308
+int gi 5/0/43
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.188
+int gi 5/0/44
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.310
+int gi 5/0/45
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.311
+int gi 5/0/46
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc RM 218 D213
+int gi 5/0/47
+undo port trunk permit vlan 999
+port trunk permit vlan 500
+port trunk pvid vlan 500
+desc PSHC-331-UPS
+int gi 4/0/1
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.120
+int gi 4/0/2
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 333/D.350
+int gi 4/0/3
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 212/D.166
+int gi 4/0/4
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 333/D.353
+int gi 4/0/5
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 200B/D.220
+int gi 4/0/6
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.331
+int gi 4/0/7
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 200B/D.222
+int gi 4/0/8
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 200H/D.223
+int gi 4/0/9
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D342.314
+int gi 4/0/10
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D342.313
+int gi 4/0/11
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 200G/D.226
+int gi 4/0/12
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 337/D.073
+int gi 4/0/13
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 337/D.074
+int gi 4/0/14
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.115
+int gi 4/0/15
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 212/D.157
+int gi 4/0/16
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201/D.243
+int gi 4/0/17
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.244
+int gi 4/0/18
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.327
+int gi 4/0/19
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 212/D.158
+int gi 4/0/20
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.247
+int gi 4/0/21
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 212/D.159
+int gi 4/0/22
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.250
+int gi 4/0/23
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201B/D.265
+int gi 4/0/24
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.105
+int gi 5/0/1
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc 212/D.203
+int gi 5/0/2
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 201A/D.268
+int gi 5/0/3
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D342.315
+int gi 5/0/4
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 311/D.105
+int gi 5/0/5
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.350
+int gi 5/0/6
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 311/D.163
+int gi 5/0/7
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 212/D.164
+int gi 5/0/8
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 337/D.071
+int gi 5/0/9
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.342.318
+int gi 5/0/10
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 200D/D.294
+int gi 5/0/11
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.329
+int gi 5/0/12
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 212/D.165
+int gi 5/0/13
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.330
+int gi 5/0/14
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.341
+int gi 5/0/15
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.339
+int gi 5/0/16
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.372
+int gi 5/0/17
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.298
+int gi 5/0/18
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc 309/D.346
+int gi 5/0/19
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.301
+int gi 5/0/20
+undo port trunk permit vlan 999
+port trunk permit vlan 1250
+port trunk pvid vlan 1250
+desc D.304
+int gi 5/0/21
+undo port trunk permit vlan 999
+port trunk permit vlan 1122
+port trunk pvid vlan 1122
+desc D.221
+Vlan 1250
+name SHS-Wks_W
+Vlan 1122
+name CN-Prntr_S
+Vlan 504
+name WAP_504
+Vlan 509
+name SHS-FW_509
+Vlan 4007
+name Private_4007
+Vlan 500
+name MGNT_500
+Vlan 1
+name default
+Vlan 503 
+name VoIP_503

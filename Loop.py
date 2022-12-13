@@ -39,6 +39,10 @@ for File in Files:
     shutil.move(BigFuncCommandOut,CommandsOUtput) # move output cmmands to output
 
 
+    BigFuncCommandOut = Local + "/" + "Port_Patch_" + Filename + ".csv"
+    CommandsOUtput = output + "/" + "Port_Patch_" + Filename + ".csv"
+    shutil.move(BigFuncCommandOut,CommandsOUtput) # move port patch to output     
+
     OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".txt"
     OutPutActivecsv = Local  + "/" + "OutputActive_" + Filename + ".csv"
     OutputActiveOut = output + "/" + "OutputActive_" + Filename + ".txt"
@@ -53,6 +57,7 @@ for File in Files:
     shutil.move(OutputInactive,OutputInactiveOut)# Move output Table to Output for the inactive Sheets
     shutil.move(OutputInactivecsv,OutputInactiveOutcsv)# Move output csv to Output for the inactive sheets
     print(Completed)
+
 
 
 

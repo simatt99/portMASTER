@@ -253,41 +253,81 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
         return d
     return devices
 
+def PortPatch(Sides,Filename):
+    File = "Port_Patch_"+Filename+".csv" # Create File Name
+    out = open(File,'w') # open the file
+
+    RightInterfaces = Sides[0] # Get right side
+    LeftInterfaces = Sides[1] # get left side
+
+    i = 24 # Start out at interface 24, or the right side
+    d = 1 # start on the first device
+    for Interface in RightInterfaces:
+        i += 1 # iterate the list
+
+        out.write( Interface[6]+ ","+  str(d) +"/0/" + str(i) + ",\n") # Create a pointer that Matches Description with Port
+
+        if i == 48: # if port 48 is reached, iterate to the next device
+            i = 24
+            d += 1
+    i = 0
+    d = 1
+    for Interface in LeftInterfaces:
+        i += 1 # iterate the list
+
+        out.write( Interface[6]+ ","+  str(d) +"/0/" + str(i) + ",\n") # Create a pointer that Matches Description with Port
+
+        if i == 24: # if port 48 is reached, iterate to the next device
+            i = 0
+            d += 1
+
+
 def QueryVlans(Name):
 
     print("Logged In")
     switchUrl = GetSwitchURLFromName(Name)
     print("Got Switch URL ")
     print(switchUrl)
-    VlanList = getVlan(switchUrl)
-    return VlanList
+    Combined_List = getVlan(switchUrl)
+    #print(VlanList)
+    return Combined_List
 
 def GetVlans(Interfaces,Vlans): #query OpenL2MScrape to get the Vlans for the Device
     # Get a list of vlans for each port from OpenL2M
-    VlansList = QueryVlans(Interfaces[1][0]) #Use Device Name
+    Combined_List = QueryVlans(Interfaces[1][0]) #Use Device Name
+
+    # Combined list: Interface Number, Vlan Number, Vlan Name
     i = 0
 #    print("Updating List")
     for Interface in Interfaces:
-    #    print(Interfaces[1])
-    #    print(Interfaces[1][0])
+
     # Check if the Port is an standard Edge Port
         try:
+            # Get the Interfaces Inteface Number and check if its first letter starts
+            # With G
             if Interface[1][0] == 'G':
             #    print(VlansList)
             #    print(i)
                 #print(Interfaces)
-                # if the Vlan for the interface is Disabled or not set, set it to vlan 1270
-                if VlansList[i][0] == 999 or VlansList[i][0] == 1:
-                    PortVlan = 1270
-                else:
-                    #If not a disabled vlan set portVLan to be
-                    PortVlan = VlansList[i][0]
+                # Go through Combined List of Vlans and Ports
+                Vlan_Name = ""
+                for Tray in Combined_List:
+                    # Find the combined Interface
+                    if Tray[0] == Interface[1]:
+                        print(Tray)
+                        # if the Vlan for the interface is Disabled or not set, set it to vlan 1270
+                        if Tray[1] == 999 or Tray[1] == 1:
+                            PortVlan = 1270
+                            Vlan_Name = "CAS-Wks_W"
+                        else:
+                            #If not a disabled vlan set portVLan to be
+                            PortVlan = Tray[1]
+                            Vlan_Name = Tray[2]
 
 
-                Interface[7] = VlansList[i][1] # Updated Vlan value in list to be the text vlan name
+                Interface[7] = Vlan_Name # Updated Vlan value in list to be the text vlan name
                 #Append The Vlan Number to the Specific Interface List
                 Interface.append(PortVlan)
-
                 i += 1
         except IndexError:
             return Interfaces
@@ -333,6 +373,7 @@ def BigFunc(File):
     print("Left Side Interfaces")
     print(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID", "New Port" ], tablefmt="pretty"))
     Devices = OutputCommands(Sides,Filename)
+    PortPatch(Sides,Filename)
     # Print out all of the Activated Ports
     name = "OutputActive_" + Filename
     ExportFile(Sides,name,ActiveInts)
