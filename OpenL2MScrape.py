@@ -22,8 +22,8 @@ driver = webdriver.Chrome()
 #options = webdriver.ChromeOptions();
 #options.add_argument('headless');
 
-User_cred = 'Username'
-Pass_cred = 'Password'
+User_cred = 'hopkinsr'
+Pass_cred = 'Thisismypasswordforuniversity'
 
 
 
@@ -79,9 +79,10 @@ def getVlan(switchUrl): #Get the vlans and write them to a file
                 # Get The Interface as raw text
                 Interface = data.text.strip()
                 # If this is the first colum of the row and the Interface is not a F Type interface
-                if(t == 0 and Interface[0] != "F"):
-                    # Add the Interface to a new list of ports
-                    PortList.append(Interface)
+                if(t == 0):
+                    if(Interface[0] == "T" or Interface[0] == "G"):
+                        # Add the Interface to a new list of ports
+                        PortList.append(Interface)
                 t = t + 1
         Num = 1 + Num
 
