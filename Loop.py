@@ -26,13 +26,21 @@ for File in Files:
     #Completed = Completed + "/" + File
     Filename = File[0:-4]
     BigFunc(File)
-    shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
-    # Create a folder for each device
+
+    # Make Output Directory
     path = os.path.join(outputpath + "/", Filename)
     os.mkdir(path)
 
-
     output = outputpath + "/" + Filename
+    # Copy The input File into the completed output
+    shutil.copy(Local +"/" + File,output + "/" + "INPUT_" + Filename + ".csv")
+
+    shutil.move(Local +"/" + File,Completed)#Move the Local File to Completed
+    # Create a folder for each device
+
+
+
+
 
     BigFuncCommandOut = Local + "/" + "OutputCommands_" + Filename + ".txt"
     CommandsOUtput = output + "/" + "OutputCommands_" + Filename + ".txt"
@@ -41,7 +49,10 @@ for File in Files:
 
     BigFuncCommandOut = Local + "/" + "Port_Patch_" + Filename + ".csv"
     CommandsOUtput = output + "/" + "Port_Patch_" + Filename + ".csv"
-    shutil.move(BigFuncCommandOut,CommandsOUtput) # move port patch to output     
+    shutil.move(BigFuncCommandOut,CommandsOUtput) # move port patch to output
+
+
+
 
     OutPutActive = Local  + "/" + "OutputActive_" + Filename + ".txt"
     OutPutActivecsv = Local  + "/" + "OutputActive_" + Filename + ".csv"
