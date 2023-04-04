@@ -41,7 +41,7 @@ def login():
     print("Logged In")
 
 def getVlan(switchUrl): #Get the vlans and write them to a file
-    print(switchUrl)
+    #print(switchUrl)
     driver.get(switchUrl)
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
@@ -49,7 +49,7 @@ def getVlan(switchUrl): #Get the vlans and write them to a file
     for input in soup.find_all('option', selected=True):
     #    print(input)
         Words = input.getText() # Get the text, its very long
-        print(Words)
+        # print(Words)
         List = Words.split("\n") # split the new line values into list
         try:
             List[1] = List[1].strip() # Remove whitespace from second item in list
@@ -95,7 +95,7 @@ def getVlan(switchUrl): #Get the vlans and write them to a file
         Alinged_List = [PortList[i],Vlans[0],Vlans[1]]
         Combined.append(Alinged_List)
         i = i + 1
-    print(Combined)
+    #print(Combined)
 
 
 

@@ -30,7 +30,7 @@ from OpenL2MScrape import *
 
 # Access Port Vlans - List of vlans that should by default be acess ports instead
 # of trunk ports
-AccessVlans = [1134]
+AccessVlans = [1134,504]
 
 # Define the cutoff time
 CutoffDate = datetime.strptime("2019-06-17", "%Y-%m-%d")
@@ -103,6 +103,20 @@ def ExportFile(Sides,name,Interfaces): #Write both left and right tables to a te
         f.write(tabulate(Interfaces, headers=header, tablefmt="pretty"))
     #    f.write(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
     f.close()
+    # Write as a csv file
+    with open(name + ".csv", 'w') as csvfile:
+    # creating a csv writer object
+        csvwriter = csv.writer(csvfile)
+
+    # writing the Header
+        csvwriter.writerow(header)
+
+    # writing the data rows
+        csvwriter.writerows(Interfaces)
+    csvfile.close()
+
+def BasicExport(name,Interfaces): #Write both left and right tables to a text file, Side 0 is Right,
+    header = ["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ]
     # Write as a csv file
     with open(name + ".csv", 'w') as csvfile:
     # creating a csv writer object
@@ -226,7 +240,7 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
         # Write out the commands
         if Interface[8] in AccessVlans: # if The port is in a list of acess ports
             out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
-            out.write("port link-type acesss \n") # Set the port to be an acess port
+            out.write("port link-type access \n") # Set the port to be an acess port
             out.write("port acess vlan "+ Interface[8]+ "\n") # Set the acess port vlan
         else:
             out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
@@ -285,9 +299,8 @@ def PortPatch(Sides,Filename):
 def QueryVlans(Name):
 
     print("Logged In")
-    switchUrl = GetSwitchURLFromName(Name)
     print("Got Switch URL ")
-    print(switchUrl)
+    switchUrl = GetSwitchURLFromName(Name)
     Combined_List = getVlan(switchUrl)
     #print(VlanList)
     return Combined_List
@@ -339,9 +352,7 @@ def GetVlans(Interfaces,Vlans): #query OpenL2MScrape to get the Vlans for the De
 # Main Section Here
 def BigFunc(File):
 
-    Filename = File[0:-4]
 
-    print(Filename)
     #File = "Aus-310-vfsw_Source.csv"
     ImportSheet = ReadSheet(File)
     #print(ImportSheet)
@@ -350,11 +361,18 @@ def BigFunc(File):
     Vlans = []
     Interfaces = ImportSheet
 
+    # Get The Name of the file we want for output
+    Filename = ImportSheet[0][0] # Get the name of the switch file. 
+
+    print(f"The Devices Name is: {Filename} and all of the files will be output to its folder")
+
 
     #Return a list of ports that are deemed active based off cut off date, and current status
     #This is from the list of ports on the sheet
 
     Interfaces = GetVlans(Interfaces,Vlans) ## Append Vlans from OpenL2M onto the ports
+
+    Backup = Interfaces
     ProcessedInterfaces = GetActiveInterfaces(Interfaces)
     ActiveInts = ProcessedInterfaces[0]
     DeactivatedInts = ProcessedInterfaces[1]
@@ -368,12 +386,18 @@ def BigFunc(File):
     Sides = Organize(ActiveInts)
     Sides = GetNewPort(Sides)
 
-    print("Right Side Interfaces")
-    print(tabulate(Sides[0], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
-    print("Left Side Interfaces")
-    print(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID", "New Port" ], tablefmt="pretty"))
+    print("Right Side Interfaces Have Been Organized and generated") 
+   # print(tabulate(Sides[0], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID","New Port" ], tablefmt="pretty"))
+    print("Left Side Interfaces have been organized and generated")
+    #print(tabulate(Sides[1], headers=["Device","Interface ID","Speed","Status","State","Last Change","Desc","Vlan Name","Vlan ID", "New Port" ], tablefmt="pretty"))
     Devices = OutputCommands(Sides,Filename)
     PortPatch(Sides,Filename)
+
+    # Create an export of the files so that we can review them later
+    BackupFileName = "Backup_" + Filename
+    BasicExport(BackupFileName,Backup)
+
+
     # Print out all of the Activated Ports
     name = "OutputActive_" + Filename
     ExportFile(Sides,name,ActiveInts)
@@ -381,3 +405,4 @@ def BigFunc(File):
     name = "Deactivated_" + Filename
     ExportFile(Sides,name,DeactivatedInts)
     print("Num of HPE Switches Needed: " + str(Devices))
+    return Filename

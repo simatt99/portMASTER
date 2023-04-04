@@ -1,0 +1,1 @@
+This is where you put all of the AKIPS input files that you downloaded from the internet
