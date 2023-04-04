@@ -22,8 +22,8 @@ driver = webdriver.Chrome()
 #options = webdriver.ChromeOptions();
 #options.add_argument('headless');
 
-User_cred = 'hopkinsr'
-Pass_cred = 'Thisismypasswordforuniversity'
+User_cred = 'ENTER USERNAME'
+Pass_cred = 'ENTER PASSWORD'
 
 
 
