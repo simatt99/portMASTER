@@ -33,7 +33,7 @@ from OpenL2MScrape import *
 AccessVlans = [1134,504]
 
 # Define the cutoff time
-CutoffDate = datetime.strptime("2019-06-17", "%Y-%m-%d")
+CutoffDate = datetime.strptime("2020-01-01", "%Y-%m-%d")
 
 def ReadSheet(File):
     with open(File, newline='') as f:
@@ -205,7 +205,8 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
             OnSwitchVlanName.append(Interface[7])
 
 
-        if Interface[8] in AccessVlans: # if The port is in a list of acess ports
+        if int(Interface[8]) in AccessVlans: # if The port is in a list of acess ports
+            print("Genereating Access Port ")
             out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
             out.write("port link-type acesss \n") # Set the port to be an acess port
             out.write("port acess vlan "+ Interface[8]+ "\n") # Set the acess port vlan
