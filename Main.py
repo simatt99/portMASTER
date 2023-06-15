@@ -208,8 +208,8 @@ def OutputCommands(Sides,Filename): # Write the HPE commands to a Txt file
         if int(Interface[8]) in AccessVlans: # if The port is in a list of acess ports
             print("Genereating Access Port ")
             out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
-            out.write("port link-type acesss \n") # Set the port to be an acess port
-            out.write("port acess vlan "+ Interface[8]+ "\n") # Set the acess port vlan
+            out.write("port link-type access \n") # Set the port to be an acess port
+            out.write("port access vlan "+ Interface[8]+ "\n") # Set the acess port vlan
         else:
             out.write( "int gi "+ str(d) +"/0/" + str(i) + "\n") # Select the new port
             out.write("undo port trunk permit vlan 999 \n") # Remove vlan 999 as a supported vlan

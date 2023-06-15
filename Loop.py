@@ -4,11 +4,32 @@ from os import mkdir
 from Main import BigFunc
 import shutil
 import os
+import argparse
 from OpenL2MScrape import login, Quit
+import time
 mypath = "C:/Users/ripte/Documents/CutSheetCreator/Input"
 outputpath = "C:/Users/ripte/Documents/CutSheetCreator/Output"
 Completed =  "C:/Users/ripte/Documents/CutSheetCreator/Completed"
 Local = "C:/Users/ripte/Documents/CutSheetCreator"
+
+parser = argparse.ArgumentParser(
+    description='Take AKIPS Information and use it to generate Cutsheets')
+
+parser.add_argument('--username', '-u',
+                    help='Username for OpenL2M (ONID EX: Hopkinsr)', nargs=1, required=True)
+parser.add_argument('--password', '-p',
+                    help='Username for OpenL2M (ONID Password)', nargs=1, required=True)
+
+parser.add_argument('--mode', '-m',
+                    help='[UNFINISHED WIP] Port Organizational Mode, Options: Managed, Unmanaged, Managed attempts to organizes interfaces and Patch Panel Cables through reordering Jack numbers then paring with interface (For full rewires) [ Defaults: Unmanaged]', nargs=1, default="Unmanaged")
+
+
+args = parser.parse_args()
+# print(parser.parse_args())
+# Get the Username
+print(args.username[0])
+print(args.password[0])
+
 def GetInputFiles():
 
     filenames = next(walk(mypath), (None, None, []))[2]  # [] if no file
@@ -16,10 +37,12 @@ def GetInputFiles():
     print(filenames)
     return filenames
 
-
+# Get all Input Files From Input Directory
 Files = GetInputFiles()
+# Start the Selinum Instance 
 print("Logging Into OpenL2MScrape")
-login()
+# Log the user into OpenL2m 
+login(args.username[0], args.password[0])
 for File in Files:
     print(File)
     

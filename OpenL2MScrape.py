@@ -1,37 +1,30 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import csv
-from dotenv import load_dotenv
-load_dotenv()
 import os
+import time
 
-# Run Headlessly
-from selenium.webdriver.chrome.options import Options
-
-options = Options()
-options.headless = True
-
-#f = open('VlansOut.csv', 'w')
-#writer = csv.writer(f)
 # If you want to open Chrome
 driver = webdriver.Chrome()
-#options = webdriver.ChromeOptions();
-#options.add_argument('headless');
-
-User_cred = 'ENTER USERNAME'
-Pass_cred = 'ENTER PASSWORD'
-
-
-
+#The amount of seconds to wait for each webpage to load before executing any scraping commands
+page_Delay = 2
 # If you want to open Firefox
 #driver = webdriver.Firefox()
+
+
 switchUrl = "https://switches.net.oregonstate.edu/switches/27/391/"
-def login():
+
+
+def login(User_cred,Pass_cred):
+    print("Got Creds for Username: " + User_cred)
     driver.get("https://switches.net.oregonstate.edu/accounts/login/")
+    time.sleep(page_Delay)
     print("Got Login Page")
     username = driver.find_element(By.NAME,'username')
     password = driver.find_element(By.NAME,'password')
@@ -39,6 +32,7 @@ def login():
     password.send_keys(Pass_cred)
     driver.find_element(By.CSS_SELECTOR, ".btn-primary").click()
     print("Logged In")
+    
 
 def getVlan(switchUrl): #Get the vlans and write them to a file
     #print(switchUrl)
