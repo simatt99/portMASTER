@@ -7,28 +7,43 @@ import os
 import argparse
 from OpenL2MScrape import login, Quit
 import time
-mypath = "C:/Users/ripte/Documents/CutSheetCreator/Input"
-outputpath = "C:/Users/ripte/Documents/CutSheetCreator/Output"
-Completed =  "C:/Users/ripte/Documents/CutSheetCreator/Completed"
-Local = "C:/Users/ripte/Documents/CutSheetCreator"
-
-parser = argparse.ArgumentParser(
-    description='Take AKIPS Information and use it to generate Cutsheets')
-
-parser.add_argument('--username', '-u',
-                    help='Username for OpenL2M (ONID EX: Hopkinsr)', nargs=1, required=True)
-parser.add_argument('--password', '-p',
-                    help='Username for OpenL2M (ONID Password)', nargs=1, required=True)
-
-parser.add_argument('--mode', '-m',
-                    help='[UNFINISHED WIP] Port Organizational Mode, Options: Managed, Unmanaged, Managed attempts to organizes interfaces and Patch Panel Cables through reordering Jack numbers then paring with interface (For full rewires) [ Defaults: Unmanaged]', nargs=1, default="Unmanaged")
+import PySimpleGUI as sg  
+import pathlib
 
 
-args = parser.parse_args()
+cwd = pathlib.Path().resolve()
+
+mypath = "/Users/matt/Desktop/CutSheetCreator/Input"
+outputpath = "/Users/matt/Desktop/CutSheetCreator/Output"
+Completed =  "/Users/matt/Desktop/CutSheetCreator/Completed"
+Local = "/Users/matt/Desktop/CutSheetCreator"
+
+# parser = argparse.ArgumentParser(
+#     description='Take AKIPS Information and use it to generate Cutsheets')
+
+# parser.add_argument('--username', '-u',
+#                     help='Username for OpenL2M (ONID EX: Hopkinsr)', nargs=1, required=True)
+# parser.add_argument('--password', '-p',
+#                     help='Username for OpenL2M (ONID Password)', nargs=1, required=True)
+
+# parser.add_argument('--mode', '-m',
+#                     help='[UNFINISHED WIP] Port Organizational Mode, Options: Managed, Unmanaged, Managed attempts to organizes interfaces and Patch Panel Cables through reordering Jack numbers then paring with interface (For full rewires) [ Defaults: Unmanaged]', nargs=1, default="Unmanaged")
+
+# args = parser.parse_args()
+
 # print(parser.parse_args())
 # Get the Username
-print(args.username[0])
-print(args.password[0])
+layout = [  [sg.Text("Username:")],
+            [sg.Input()],
+            [sg.Text("Password:")],
+            [sg.Input()],
+            [sg.Button('Ok')] ]
+
+window = sg.Window('Cutsheet Creator V1.0', layout)
+event, values = window.read() 
+window.close()
+# print(args.username[0])
+# print(args.password[0])
 
 def GetInputFiles():
 
@@ -42,7 +57,7 @@ Files = GetInputFiles()
 # Start the Selinum Instance 
 print("Logging Into OpenL2MScrape")
 # Log the user into OpenL2m 
-login(args.username[0], args.password[0])
+login(values[0], values[1])
 for File in Files:
     print(File)
     
