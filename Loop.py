@@ -8,42 +8,29 @@ import argparse
 from OpenL2MScrape import login, Quit
 import time
 import PySimpleGUI as sg  
-import pathlib
 
 
-cwd = pathlib.Path().resolve()
 
-mypath = "/Users/matt/Desktop/CutSheetCreator/Input"
-outputpath = "/Users/matt/Desktop/CutSheetCreator/Output"
-Completed =  "/Users/matt/Desktop/CutSheetCreator/Completed"
-Local = "/Users/matt/Desktop/CutSheetCreator"
+# get current working directory based on OS and add local paths to variables
+cwd = os.getcwd()
 
-# parser = argparse.ArgumentParser(
-#     description='Take AKIPS Information and use it to generate Cutsheets')
+mypath = cwd + "/Input"
+outputpath = cwd + "/Output"
+Completed =  cwd + "/Completed"
+Local = cwd
 
-# parser.add_argument('--username', '-u',
-#                     help='Username for OpenL2M (ONID EX: Hopkinsr)', nargs=1, required=True)
-# parser.add_argument('--password', '-p',
-#                     help='Username for OpenL2M (ONID Password)', nargs=1, required=True)
 
-# parser.add_argument('--mode', '-m',
-#                     help='[UNFINISHED WIP] Port Organizational Mode, Options: Managed, Unmanaged, Managed attempts to organizes interfaces and Patch Panel Cables through reordering Jack numbers then paring with interface (For full rewires) [ Defaults: Unmanaged]', nargs=1, default="Unmanaged")
-
-# args = parser.parse_args()
-
-# print(parser.parse_args())
-# Get the Username
+# get user login from gui
 layout = [  [sg.Text("Username:")],
             [sg.Input()],
             [sg.Text("Password:")],
-            [sg.Input()],
+            [sg.Input(password_char='*')],
             [sg.Button('Ok')] ]
 
 window = sg.Window('Cutsheet Creator V1.0', layout)
 event, values = window.read() 
 window.close()
-# print(args.username[0])
-# print(args.password[0])
+
 
 def GetInputFiles():
 
@@ -52,12 +39,16 @@ def GetInputFiles():
     print(filenames)
     return filenames
 
+
 # Get all Input Files From Input Directory
 Files = GetInputFiles()
+
 # Start the Selinum Instance 
 print("Logging Into OpenL2MScrape")
+
 # Log the user into OpenL2m 
 login(values[0], values[1])
+
 for File in Files:
     print(File)
     
